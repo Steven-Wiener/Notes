@@ -1,0 +1,90 @@
+Repository: Location where code history is stored
+Branch: "Folder" within repository containing commits
+Commits: Different stages of your code inside a branch
+
+In Visual Studio Code, can see Git terminal by View->Integrated Terminal
+
+git init // Initialize empty Git repo and tell Git to manage project in this folder
+git status // No commits yet because of untracked files
+git add . // Stage all files to be added
+git commit -m "initial commit" // Create commit
+git status // Now reveals no changes to be made
+git branch // Shows *master. This commit is now saved inside master branch in repo in folder
+
+After changes are made:
+git add .
+git commit -m "added blah method"
+git log // Shows original commit as well as "added blah method" commit
+q // leave log menu
+
+Git does not create copies of code, just monitors changes
+After every commit, most recent change becomes HEAD of branch
+
+git checkout <commit code #####> // HEAD is now at current commit to checkout, but this commit is no longer part of master branch
+git master // Return to last commit
+git reset --hard <commit code to return to> // HEAD goes to requested commit, and all commits made post are deleted
+
+After changes are made and saved, but we want don't want to add or commit them:
+
+git checkout -- . // Removes changes and restores state to last commit
+
+
+BRANCHES
+Used for example when you want to add new feature to site, but don't want to crash current site. Can still work in master branch to implement bug fixes while working in new branch at same time. After feature is completed, can merge both branches
+
+git checkout -b new-feature // create new branch called 'new-feature'
+git branch // shows master, *new-feature
+git log // shows all commits inside master branch. (HEAD -> new-feature, master)
+
+After adding new file to project (i.e. style.css):
+git add .
+git commit -m "css added"
+git log // (HEAD -> new-feature) at most recent "css added" commit, (master) still at commit before new branch was made
+
+git checkout master // Switch back to master branch
+git master // Shorthand for previous line, is equivalent
+git merge new-feature // Add change (additional .css file) to master branch
+git log // Shows (HEAD -> master, new-feature) at most recent "css added" commit
+git branch -D new-feature // delete new-feature branch as it is no longer needed
+
+To work on several versions of the same file:
+git checkout -b new-feature // Switch to new branch 'new-feature'
+// Make some change in index.html, like changing Hello to Good Bye
+git add .
+git commit -m "added goodbye"
+git master // Return to master branch
+// Make change to same element in index.html, like changing Hello to Bye
+git add .
+git commit -m "added bye"
+git merge new-feature // Merge conflict, fix conflict then save change
+git add .
+git commit -m "merge resolved"
+git log // (HEAD -> master) at 'merge resolved', shows 'added bye' after, not sure about 'added goodbye'
+
+// Remote
+git remote add origin <remote repository url> // Set new remote
+git remote -v // Verifies new remote URL
+git push origin master // Push changes in local repo to remote repo
+
+
+
+///////////
+// EPIC //
+/////////
+
+// Tests //
+// Static analysis: automated inspection of code for programmatic, structural, and stylistic issues (linting)
+// Unit testing: testing the smallest components ("units") of code possible
+// Integration testing: testing functionality with realistic environmental context
+// Acceptance testing: testing product's full end-to-end workflow prior to production release
+
+// GitLab CI : Automates build, test, and deployment workflows. Runs are triggered by pushes and merge requests in GitLab, Define sequential stages that are 
+// Using GitLab CI: place a .gitlab-ci.yml file at the root of your Git project:
+include:
+  - project: 'EpicHosted/pipelines'
+    file: <file>
+
+// Feedback: Use automated and human tools to get feedback about the impact of your development - should always enable continuous improvement of the product.
+
+git reset // Changes what commit HEAD is pointing at May modify existing history depending on usage; Useful for discarding changes that have not be pushed
+git revert
